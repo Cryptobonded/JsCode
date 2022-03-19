@@ -1,0 +1,29 @@
+// refer to  https://github.com/Tanakaor/javascript/tree/master/css-in-javascript
+
+// bad
+{
+  bigBang: {
+    display: 'inline-block',
+    '::before': {
+      content: "''",
+    },
+  },
+  universe: {
+    border: 'none',
+  },
+}
+
+// good
+{
+  bigBang: {
+    display: 'inline-block',
+
+    '::before': {
+      content: "''",
+    },
+  },
+
+  universe: {
+    border: 'none',
+  },
+}
