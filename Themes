@@ -1,0 +1,53 @@
+// refer to https://github.com/Tanakaor/javascript/tree/master/css-in-javascript
+
+// Define colors only in themes.
+
+// bad
+export default withStyles(() => ({
+  chuckNorris: {
+    color: '#bada55',
+  },
+}))(MyComponent);
+
+// good
+export default withStyles(({ color }) => ({
+  chuckNorris: {
+    color: color.badass,
+  },
+}))(MyComponent);
+
+
+// Define fonts only in themes.
+
+// bad
+export default withStyles(() => ({
+  towerOfPisa: {
+    fontStyle: 'italic',
+  },
+}))(MyComponent);
+
+// good
+export default withStyles(({ font }) => ({
+  towerOfPisa: {
+    fontStyle: font.italic,
+  },
+}))(MyComponent);
+
+// Define fonts as sets of related styles.
+
+// bad
+export default withStyles(() => ({
+  towerOfPisa: {
+    fontFamily: 'Italiana, "Times New Roman", serif',
+    fontSize: '2em',
+    fontStyle: 'italic',
+    lineHeight: 1.5,
+  },
+}))(MyComponent);
+
+// good
+export default withStyles(({ font }) => ({
+  towerOfPisa: {
+    ...font.italian,
+  },
+}))(MyComponent);
