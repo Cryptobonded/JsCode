@@ -1,0 +1,85 @@
+// refer to https://github.com/Tanakaor/javascript/tree/master/css-in-javascript
+
+// Define base grid units in theme (either as a value or a function that takes a multiplier).
+// bad
+export default withStyles(() => ({
+  rip: {
+    bottom: '-6912px', // 6 feet
+  },
+}))(MyComponent);
+
+// good
+export default withStyles(({ units }) => ({
+  rip: {
+    bottom: units(864), // 6 feet, assuming our unit is 8px
+  },
+}))(MyComponent);
+
+// good
+export default withStyles(({ unit }) => ({
+  rip: {
+    bottom: 864 * unit, // 6 feet, assuming our unit is 8px
+  },
+}))(MyComponent);
+
+
+//Define media queries only in themes.
+// bad
+export default withStyles(() => ({
+  container: {
+    width: '100%',
+
+    '@media (max-width: 1047px)': {
+      width: '50%',
+    },
+  },
+}))(MyComponent);
+
+// good
+export default withStyles(({ breakpoint }) => ({
+  container: {
+    width: '100%',
+
+    [breakpoint.medium]: {
+      width: '50%',
+    },
+  },
+}))(MyComponent);
+
+// Define tricky fallback properties in themes.
+// Why? Many CSS-in-JavaScript implementations merge style objects together which makes specifying fallbacks for the same property (e.g. display) a little tricky. To keep the approach unified, put these fallbacks in the theme.
+// bad
+export default withStyles(() => ({
+  .muscles {
+    display: 'flex',
+  },
+
+  .muscles_fallback {
+    'display ': 'table',
+  },
+}))(MyComponent);
+
+// good
+export default withStyles(({ fallbacks }) => ({
+  .muscles {
+    display: 'flex',
+  },
+
+  .muscles_fallback {
+    [fallbacks.display]: 'table',
+  },
+}))(MyComponent);
+
+// good
+export default withStyles(({ fallback }) => ({
+  .muscles {
+    display: 'flex',
+  },
+
+  .muscles_fallback {
+    [fallback('display')]: 'table',
+  },
+}))(MyComponent);
+
+// Create as few custom themes as possible. Many applications may only have one theme.
+// Namespace custom theme settings under a nested object with a unique and descriptive key.
